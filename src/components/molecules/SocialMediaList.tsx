@@ -1,11 +1,12 @@
 import socialMediaData from "@/const/socialMediaData.json";
 import Link from "next/link";
+import { assetUrl } from "@/const/basePath";
 
 export default function SocialMediaList() {
     return (
         <ul className="flex items-center justify-center lg:justify-end gap-7">
             {socialMediaData.map(({link, label, icon}) => {
-                const src = `/img/contact-icons/contact-${icon}`;
+                const src = assetUrl(`/img/contact-icons/contact-${icon}`);
                 return (
                     <li key={label}>
                         <Link
