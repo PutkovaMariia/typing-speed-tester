@@ -1,39 +1,17 @@
-"use client";
-
-import {useTypingGame} from "@/hooks/useTypingGame";
 import TypingArea from "@/components/molecules/TypingAria";
 import TypingInput from "@/components/atoms/TypingInput";
+import { TypingGameProvider } from "@/contexts/TypingGameContext";
 
 export default function TypingBoard() {
-    const {
-        typingText,
-        inpFieldValue,
-        timeLeft,
-        mistakes,
-        WPM,
-        CPM,
-        inputRef,
-        handleKeyDown,
-        initTyping,
-        resetGame
-    } = useTypingGame();
-
-    return (
-        <main className="rounded-2xl shadow-xl flex flex-col gap-[32px] row-start-2 items-center p-10 border border-gray-300">
-            <TypingInput
-                value={inpFieldValue}
-                onChange={initTyping}
-                onKeyDown={handleKeyDown}
-                ref={inputRef}
-            />
-            <TypingArea
-                typingText={typingText}
-                timeLeft={timeLeft}
-                mistakes={mistakes}
-                WPM={WPM}
-                CPM={CPM}
-                resetGame={resetGame}
-            />
-        </main>
-    );
+  return (
+    <TypingGameProvider>
+      <main
+        className="w-full lg:w-2/3 max-w-6xl rounded-2xl shadow-xl flex flex-col gap-8 items-center
+                       border border-gray-300 p-6 lg:p-10"
+      >
+        <TypingInput />
+        <TypingArea />
+      </main>
+    </TypingGameProvider>
+  );
 }

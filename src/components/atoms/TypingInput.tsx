@@ -1,27 +1,20 @@
-import {forwardRef} from "react";
+"use client";
 
-interface TypingInputProps {
-    value: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+import { useTypingGameContext } from "@/contexts/TypingGameContext";
+
+export default function TypingInput() {
+  const { inpFieldValue, initTyping, handleKeyDown, inputRef } =
+    useTypingGameContext();
+
+  return (
+    <input
+      ref={inputRef}
+      type="text"
+      className="absolute opacity-0 -z-999"
+      value={inpFieldValue}
+      onChange={initTyping}
+      onKeyDown={handleKeyDown}
+      autoFocus
+    />
+  );
 }
-
-const TypingInput = forwardRef<HTMLInputElement, TypingInputProps>(
-    ({ value, onChange, onKeyDown }, ref) => {
-        return (
-            <input
-                ref={ref}
-                type="text"
-                className="input-field"
-                value={value}
-                onChange={onChange}
-                onKeyDown={onKeyDown}
-                autoFocus
-            />
-        );
-    }
-);
-
-TypingInput.displayName = 'TypingInput';
-
-export default TypingInput;

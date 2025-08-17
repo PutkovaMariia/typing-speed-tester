@@ -1,22 +1,17 @@
+import SocialMediaList from "@/components/molecules/SocialMediaList";
+import {useMemo} from "react";
+
 export default function Footer() {
+    const currentYear = useMemo(() => new Date().getFullYear(), []);
     return (
-        <footer className="border border-blue-700 row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-            hey
+        <footer
+            className="mt-auto w-full px-6 pb-3 flex flex-col-reverse lg:flex-row gap-y-5 items-center justify-between">
+            <div className="font-normal text-sm lg:text-base flex items-center justify-center lg:justify-start">
+                <p>
+                    &copy; Mariia Putkova {currentYear}. All rights reserved
+                </p>
+            </div>
+            <SocialMediaList/>
         </footer>
-    )
+    );
 }
-// <a
-//     className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-//     href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//     target="_blank"
-//     rel="noopener noreferrer"
-// >
-//     <Image
-//         aria-hidden
-//         src="/file.svg"
-//         alt="File icon"
-//         width={16}
-//         height={16}
-//     />
-//     Learn
-// </a>

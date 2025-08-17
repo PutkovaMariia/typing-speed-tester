@@ -1,51 +1,21 @@
-import React from 'react';
+"use client";
+
 import ButtonMain from "@/components/atoms/ButtonMain";
+import TypingText from "@/components/atoms/TypingText";
+import { useTypingGameContext } from "@/contexts/TypingGameContext";
+import ResultsAria from "@/components/molecules/ResultsAria";
+import { content } from "@/const/contentTyped";
 
-interface TypingAreaProps {
-    typingText: React.ReactElement[],
-    timeLeft: number,
-    mistakes: number,
-    WPM: number,
-    CPM: number,
-    resetGame: () => void,
-}
+export default function TypingArea() {
+    const { typingText, inpFieldValue, charIndex, resetGame } = useTypingGameContext();
 
-export default function TypingArea ({
-                        typingText,
-                        timeLeft,
-                        mistakes,
-                        WPM,
-                        CPM,
-                        resetGame,
-                    }: TypingAreaProps) {
     return (
-        <div>
-            <div className="section1">
-                <p id="paragraph">{typingText}</p>
-            </div>
-            <div className="section2">
-                <ul className="resultDetails">
-                    <li className="time">
-                        <p>Time Left:</p>
-                        <span>
-              <b>{timeLeft}</b>s
-            </span>
-                    </li>
-                    <li className="mistake">
-                        <p>Mistakes:</p>
-                        <span>{mistakes}</span>
-                    </li>
-                    <li className="wpm">
-                        <p>WPM:</p>
-                        <span>{WPM}</span>
-                    </li>
-                    <li className="cpm">
-                        <p>CPM:</p>
-                        <span>{CPM}</span>
-                    </li>
-                </ul>
-                < ButtonMain action={resetGame} text={'Try Again'} />
-            </div>
-        </div>
-    );
-};
+    <div className="size-full">
+        <TypingText text={typingText} typed={inpFieldValue} charIndex={charIndex} />
+      <div className="size-full flex flex-col lg:flex-row items-center justify-center gap-x-25 gap-y-10 mt-10 lg:mt-5">
+        <ResultsAria />
+        <ButtonMain action={resetGame} text={content.restartButton} />
+      </div>
+    </div>
+  );
+}
