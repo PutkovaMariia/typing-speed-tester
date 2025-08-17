@@ -1,4 +1,4 @@
-import {ChangeEvent, Dispatch, SetStateAction, KeyboardEvent} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, KeyboardEvent } from "react";
 
 export function useGameLogic() {
   const handleKeyDown = (
