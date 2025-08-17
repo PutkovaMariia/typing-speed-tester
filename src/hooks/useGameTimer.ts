@@ -25,7 +25,6 @@ export function useGameTimer(maxTime: number) {
     setTimeLeft(maxTime);
   }, [maxTime, stopTimer]);
 
-  // Auto-stop when time runs out
   useEffect(() => {
     if (timeLeft === 0) {
       stopTimer();

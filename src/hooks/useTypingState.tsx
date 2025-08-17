@@ -1,25 +1,17 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 
 export function useTypingState() {
-  const [typingText, setTypingText] = useState<ReactElement[]>([]);
-  const [inpFieldValue, setInpFieldValue] = useState("");
-  const [charIndex, setCharIndex] = useState(0);
-  const [mistakes, setMistakes] = useState(0);
-  const [isTyping, setIsTyping] = useState(false);
+  const [typingText, setTypingText] = useState<string>("");
+  const [inpFieldValue, setInpFieldValue] = useState<string>("");
+  const [charIndex, setCharIndex] = useState<number>(0);
+  const [mistakes, setMistakes] = useState<number>(0);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   return {
-    // State
-    typingText,
-    inpFieldValue,
-    charIndex,
-    mistakes,
-    isTyping,
-
-    // Setters
-    setTypingText,
-    setInpFieldValue,
-    setCharIndex,
-    setMistakes,
-    setIsTyping,
+    typingText, setTypingText,
+    inpFieldValue, setInpFieldValue,
+    charIndex, setCharIndex,
+    mistakes, setMistakes,
+    isTyping, setIsTyping,
   };
 }

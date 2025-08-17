@@ -4,11 +4,10 @@ export function useInputFocus() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const focusInput = useCallback(() => {
-    // ← Add useCallback here
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, []); // ← Empty dependency array
+  }, []);
 
   useEffect(() => {
     const handleGlobalKeydown = () => {

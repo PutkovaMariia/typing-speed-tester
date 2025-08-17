@@ -4,130 +4,111 @@ import React, { useCallback } from "react";
 import { useTypingStats } from "@/hooks/useTypingStats";
 import { useGameTimer } from "@/hooks/useGameTimer";
 import { useParagraphLoader } from "@/hooks/useParagraphLoader";
-import { useDOMHelpers } from "@/hooks/useDOMHelpers";
 import { useInputFocus } from "@/hooks/useInputFocus";
 import { useTypingState } from "@/hooks/useTypingState";
 import { useGameLogic } from "@/hooks/useGameLogic";
 import { useGameEffects } from "@/hooks/useGameEffects";
 
 export function useTypingGame() {
-  const typingState = useTypingState();
-  const gameTimer = useGameTimer(60);
+  const {
+    typingText, setTypingText,
+    inpFieldValue, setInpFieldValue,
+    charIndex, setCharIndex,
+    mistakes, setMistakes,
+    isTyping, setIsTyping,
+  } = useTypingState();
+
+  const { timeLeft, resetTimer, startTimer, stopTimer } = useGameTimer(60);
+
   const { inputRef, focusInput } = useInputFocus();
-  const paragraphLoader = useParagraphLoader();
-  const domHelpers = useDOMHelpers();
-  const stats = useTypingStats(
-    typingState.charIndex,
-    typingState.mistakes,
-    gameTimer.timeLeft,
-    60,
-  );
+  const { loadParagraph: pickParagraph } = useParagraphLoader();
   const gameLogic = useGameLogic();
 
-  // === FUNCTIONS ===
+  const stats = useTypingStats(charIndex, mistakes, timeLeft, 60);
+
   const loadParagraph = useCallback(() => {
-    const content = paragraphLoader.loadParagraph();
-    focusInput(); // ← Use focusInput instead of manual focus
-    typingState.setTypingText(content);
-    typingState.setInpFieldValue("");
-    typingState.setCharIndex(0);
-    typingState.setMistakes(0);
-    typingState.setIsTyping(false);
-  }, [paragraphLoader, focusInput]);
+    const content = pickParagraph();
+    focusInput();
+    setTypingText(content);
+    setInpFieldValue("");
+    setCharIndex(0);
+    setMistakes(0);
+    setIsTyping(false);
+  }, [
+    pickParagraph,
+    focusInput,
+    setTypingText,
+    setInpFieldValue,
+    setCharIndex,
+    setMistakes,
+    setIsTyping,
+  ]);
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
-      gameLogic.handleKeyDown(
-        event,
-        typingState.charIndex,
-        gameTimer.timeLeft,
-        typingState.setMistakes,
-        typingState.setCharIndex,
-        domHelpers.moveBack,
-      );
-    },
-    [
-      gameLogic,
-      typingState.charIndex,
-      typingState.setMistakes,
-      typingState.setCharIndex,
-      gameTimer.timeLeft,
-      domHelpers.moveBack,
-    ],
+      (event: React.KeyboardEvent<HTMLInputElement>) => {
+        gameLogic.handleKeyDown(event, timeLeft);
+      },
+      [gameLogic, charIndex, timeLeft, setCharIndex]
   );
 
   const initTyping = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      gameLogic.initTyping(
-        event,
-        typingState.charIndex,
-        gameTimer.timeLeft,
-        typingState.isTyping,
-        typingState.setIsTyping,
-        typingState.setCharIndex,
-        typingState.setMistakes,
-        domHelpers.markCorrect,
-        domHelpers.markWrong,
-      );
-    },
-    [
-      gameLogic,
-      typingState.charIndex,
-      typingState.isTyping,
-      typingState.setIsTyping,
-      typingState.setCharIndex,
-      typingState.setMistakes,
-      gameTimer.timeLeft,
-      domHelpers.markCorrect,
-      domHelpers.markWrong,
-    ],
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        gameLogic.initTyping(
+            event,
+            typingText,
+            timeLeft,
+            isTyping,
+            setIsTyping,
+            setInpFieldValue,
+            setCharIndex,
+            setMistakes
+        );
+      },
+      [
+        gameLogic,
+        typingText,
+        charIndex,
+        timeLeft,
+        isTyping,
+        setIsTyping,
+        setInpFieldValue,
+        setCharIndex,
+        setMistakes,
+      ]
   );
 
   const resetGame = useCallback(() => {
-    typingState.setIsTyping(false);
-    gameTimer.resetTimer();
-    typingState.setCharIndex(0);
-    typingState.setMistakes(0);
-    typingState.setTypingText([]);
-    const characters = document.querySelectorAll(".char");
-    domHelpers.clearAllClasses(characters);
-    domHelpers.setFirstActive(characters);
+    setIsTyping(false);
+    resetTimer();
+    setCharIndex(0);
+    setMistakes(0);
+    setTypingText("");
     loadParagraph();
-  }, [typingState, gameTimer, domHelpers, loadParagraph]);
+  }, [setIsTyping, resetTimer, setCharIndex, setMistakes, setTypingText, loadParagraph]);
 
   useGameEffects(
-    loadParagraph,
-    typingState.isTyping,
-    gameTimer.timeLeft,
-    gameTimer.startTimer,
-    gameTimer.stopTimer,
-    typingState.setIsTyping,
+      loadParagraph,
+      isTyping,
+      timeLeft,
+      startTimer,
+      stopTimer,
+      setIsTyping
   );
 
-  // === RETURN VALUES ===
   return {
-    // State
-    typingText: typingState.typingText,
-    inpFieldValue: typingState.inpFieldValue,
-    timeLeft: gameTimer.timeLeft,
-    charIndex: typingState.charIndex,
-    mistakes: typingState.mistakes,
-    isTyping: typingState.isTyping,
-
-    // Refs
+    typingText,
+    inpFieldValue,
+    timeLeft,
+    charIndex,
+    mistakes,
+    isTyping,
     inputRef,
-
-    // Computed
     WPM: stats?.stats?.WPM || 0,
     CPM: stats?.stats?.CPM || 0,
-
-    // Functions
     loadParagraph,
     handleKeyDown,
     initTyping,
     resetGame,
-
-    // Setters (if needed)
-    setInpFieldValue: typingState.setInpFieldValue,
+    setInpFieldValue,
   };
 }
