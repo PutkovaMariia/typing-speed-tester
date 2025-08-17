@@ -1,0 +1,19 @@
+{
+  "title": "Typing Speed Tester",
+  "subtitle": "Type faster. Type smarter.",
+  "restartButton": "Try Again",
+  "stats": {
+    "order": ["time", "mistakes", "wpm", "cpm"],
+    "time": {
+      "label": "Time Left",
+      "hint": "Seconds remaining in the current test.",
+      "suffix": "s"
+    },
+    "mistakes": {
+      "label": "Mistakes",
+      "hint": "Count of typed characters that didn't match."
+    },
+    "wpm": { "label": "WPM", "hint": "Words per minute (5 chars = 1 word)." },
+    "cpm": { "label": "CPM", "hint": "Characters per minute." }
+  }
+}
