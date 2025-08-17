@@ -1,20 +1,23 @@
 "use client";
+import { forwardRef, InputHTMLAttributes } from "react";
 
-import { useTypingGameContext } from "@/contexts/TypingGameContext";
+type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;
 
-export default function TypingInput() {
-  const { inpFieldValue, initTyping, handleKeyDown, inputRef } =
-    useTypingGameContext();
-
+const TypingInput = forwardRef<HTMLInputElement, Props>(function TypingInput(props, ref) {
   return (
-    <input
-      ref={inputRef}
-      type="text"
-      className="absolute opacity-0 -z-999"
-      value={inpFieldValue}
-      onChange={initTyping}
-      onKeyDown={handleKeyDown}
-      autoFocus
-    />
+      <input
+          {...props}
+          ref={ref}
+          type="text"
+          inputMode="text"
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
+          // overlay the text area; tap anywhere → focus → keyboard opens
+          className="absolute inset-0 h-full w-full opacity-0 z-10"
+      />
   );
-}
+});
+
+export default TypingInput;
