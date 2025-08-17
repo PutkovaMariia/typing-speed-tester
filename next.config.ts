@@ -1,13 +1,10 @@
 import type { NextConfig } from "next";
-
-const repo = "typing-speed-tester";
-const isProd = process.env.NODE_ENV === "production";
+import {BASE_PATH} from "@/const/basePath";
 
 const nextConfig: NextConfig = {
     output: "export",
     images: { unoptimized: true },
-    basePath: isProd ? `/${repo}` : undefined,
-    assetPrefix: isProd ? `/${repo}/` : undefined,
+    basePath: BASE_PATH || undefined,
+    assetPrefix: BASE_PATH ? `${BASE_PATH}/` : undefined,
 };
-
 export default nextConfig;
