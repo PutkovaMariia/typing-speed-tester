@@ -2,26 +2,23 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #fff;
+  --foreground: #0f172a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-dancingScript: var(--font-dancing-script-data), cursive;
-  --font-playfairDisplay: var(--font-playfair-display-data), sans-serif;
-  --font-lato: var(--font-lato-data), system-ui, sans-serif;
+  --color-correct: #e7fbd3;
+  --color-wrong: #ffd6d6;
+  --color-caret: #0a6bf9;
+  --color-border: #d1d5db;
+
+  --font-dancingScript: var(--font-dancing-script), cursive;
+  --font-playfairDisplay: var(--font-playfair-display), serif;
+  --font-lato: var(--font-lato), system-ui, sans-serif;
 }
 
-body {
-  margin: 0;
-  min-height: 100svh;
-}
-
-span {
-  cursor: text;
-}
-
-span.active {
-  box-shadow: inset 0 -3px 0 #0a6bf9;
-}
+.typing-text .char { cursor: text; }
+.typing-text .char.correct { background: var(--color-correct); }
+.typing-text .char.wrong   { background: var(--color-wrong); }
+.typing-text .char.active  { box-shadow: inset 0 -3px 0 var(--color-caret); }
