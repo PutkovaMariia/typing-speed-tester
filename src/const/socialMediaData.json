@@ -1,0 +1,27 @@
+[
+  {
+    "link": "https://www.linkedin.com/in/mariia-putkova/",
+    "label": "LinkedIn",
+    "icon": "linkedin.svg"
+  },
+  {
+    "link": "https://github.com/PutkovaMariia",
+    "label": "GitHub",
+    "icon": "github.svg"
+  },
+  {
+    "link": "https://t.me/MariiaPutkova",
+    "label": "Telegram",
+    "icon": "telegram.svg"
+  },
+  {
+    "link": "https://www.instagram.com/masha.putkova/",
+    "label": "Instagram",
+    "icon": "instagram.svg"
+  },
+  {
+    "link": "mailto:mashaputkova@gmail.com",
+    "label": "GMail",
+    "icon": "google-mail.svg"
+  }
+]
